@@ -1,0 +1,31 @@
+.table {
+  position: relative;
+  top: 4em;
+  width: 100%;
+}
+
+th {
+  color: white;
+  font-size: 25px;
+}
+
+td {
+  color: white;
+  font-size: 25px;
+}
+
+i {
+  float: right;
+}
+
+h4 {
+  color: red;
+  font-size: 50px;
+  float: left;
+  position: relative;
+  top: 1em;
+}
+
+.justify-content {
+  padding: 0;
+}
