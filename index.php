@@ -20,7 +20,7 @@
   <script type="text/javascript" src="js/modernizr.custom.86080.js"></script>
   <script src="js/wow.min.js"></script>
   <script>
-  new WOW().init();
+    new WOW().init();
   </script>
   <link rel="stylesheet" type="text/css" href="css/demo.css" />
   <link rel="stylesheet" type="text/css" href="css/style3.css" />
@@ -29,12 +29,12 @@
 </head>
 <body id="page">
   <ul class="cb-slideshow">
-    <li><span>Image 01</span><div><h3>JÓ ÉTVÁGYAT</h3></div></li>
-    <li><span>Image 02</span><div><h3>JÓ ÉTVÁGYAT </h3></div></li>
-    <li><span>Image 03</span><div><h3>JÓ ÉTVÁGYAT</h3></div></li>
-    <li><span>Image 04</span><div><h3>JÓ ÉTVÁGYAT</h3></div></li>
-    <li><span>Image 05</span><div><h3>JÓ ÉTVÁGYAT</h3></div></li>
-    <li><span>Image 06</span><div><h3>JÓ ÉTVÁGYAT</h3></div></li>
+    <li><span>Image 01</span><div><h3></h3></div></li>
+    <li><span>Image 02</span><div><h3></h3></div></li>
+    <li><span>Image 03</span><div><h3></h3></div></li>
+    <li><span>Image 04</span><div><h3></h3></div></li>
+    <li><span>Image 05</span><div><h3></h3></div></li>
+    <li><span>Image 06</span><div><h3></h3></div></li>
     <li><span>Image 07</span><div><h3></h3></div></li>
     <li><span>Image 08</span><div><h3></h3></div></li>
     <li><span>Image 09</span><div><h3></h3></div></li>
@@ -53,66 +53,74 @@
   <?php require_once 'admin/process.php'; ?>
   <?php
   if (isset($_SESSION['message'])): ?>
-  <div class="wow slideInDown alert alert-<?=$_SESSION['msg_type']?>">
+    <div class="wow slideInDown alert alert-<?=$_SESSION['msg_type']?>">
+      <?php
+      if(empty($leves) || empty($foetel)) {
+        echo $_SESSION['message'];
+        unset ($_SESSION['message']);
+      }
+      ?>
+    </div>
+  <?php endif ?>
+  <div class="container-fluid col-xl-10">
     <?php
-    if(empty($leves) || empty($foetel)) {
-      echo $_SESSION['message'];
-      unset ($_SESSION['message']);
-    }
-    ?>
-  </div>
-<?php endif ?>
-<div class="container-fluid col-xl-10">
-  <?php
-  $mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
-  $result = $mysqli->query("SELECT * FROM data") or die($mysqli->error);
-  $result_01 = $mysqli->query("SELECT * FROM foetel") or die($mysqli->error);
-  $result_02 = $mysqli->query("SELECT * FROM desszert") or die($mysqli->error);
+    $mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
+   // $mysqli = new mysqli ('localhost', 'dev', '', 'crud') or die(mysqli_error($mysqli));
+    $result = $mysqli->query("SELECT * FROM data") or die($mysqli->error);
+    $result_01 = $mysqli->query("SELECT * FROM foetel") or die($mysqli->error);
+    $result_02 = $mysqli->query("SELECT * FROM desszert") or die($mysqli->error);
+    $result_03 = $mysqli->query("SELECT * FROM napi_menu") or die($mysqli->error);
   //pre_r($result);
   //wow slideInRight
-  ?>
+    ?>
+    <div class="napi_menu">
+      <h5>Napi menü</h5>
+     <?php
+     while ($row = $result_03->fetch_assoc()): ?>
+      <p id="text"><?php echo $row['napi_menu']; ?></p>
+      <p><?= $row['ar_03'] . "Ft" ?></p>
+    <?php endwhile; ?>
+  </div>
   <div class="row justify-content wow slideInRight" data-wow-duration="2s" data-wow-delay="0.5s">
     <table class="table col-xl-12">
-    <h4>Levesek</h4>
+      <h4>Levesek</h4>
       <?php
       while ($row = $result->fetch_assoc()): ?>
-      <tr>
-        <th><?php echo $row['leves'] ?></th>
-        <td><i><?php echo "".$row['ar']. "Ft" ;?></i></td>
-      </tr>
-    <?php endwhile; ?>
-  </table>
-  <table class="table col-xl-12">
-  <h4>Főétel</h4>
-      <?php
-      while ($row = $result_01->fetch_assoc()): ?>
-      <tr>
-        <th><?php echo $row['foetel'] ?></th>
-        <td><i><?php echo "".$row['ar_01']. "Ft" ;?></i></td>
-      </tr>
-    <?php endwhile; ?>
+        <tr>
+          <th class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><?php echo $row['leves'] ?></th>
+          <td class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><i><?php echo "".$row['ar']. "Ft" ;?></i></td>
+        </tr>
+      <?php endwhile; ?>
     </table>
     <table class="table col-xl-12">
-    <h4>Desszert</h4>
-    <?php
+      <h4>Főétel</h4>
+      <?php
+      while ($row = $result_01->fetch_assoc()): ?>
+        <tr>
+          <th class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><?php echo $row['foetel'] ?></th>
+          <td class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><i><?php echo $row['ar_01'] . "Ft" ;?></i></td>
+        </tr>
+      <?php endwhile; ?>
+    </table>
+    <table class="table col-xl-12">
+      <h4>Desszert</h4>
+      <?php
       while ($row = $result_02->fetch_assoc()): ?>
-      <tr>
-        <th><?php echo $row['desszert'] ?></th>
-        <td><i><?php echo "".$row['ar_02']. "Ft" ;?></i></td>
-      </tr>
-    <?php endwhile; ?>
-  </table>
+        <tr>
+          <th class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><?php echo $row['desszert'] ?></th>
+          <td class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><i><?php echo "".$row['ar_02'] . "Ft" ;?></i></td>
+        </tr>
+      <?php endwhile; ?>
+    </table>
+  </div>
+  <?php
+  function pre_r( $array ) {
+    echo '<pre>';
+    print_r($array);
+    echo '</pre>';
+  }
 
-</div>
-<?php
-function pre_r( $array ) {
-  echo '<pre>';
-  print_r($array);
-  echo '</pre>';
-}
-
-?>
-
+  ?>
 </div>
 </body>
 </html>
