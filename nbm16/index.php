@@ -31,8 +31,8 @@
   <?php endif ?>
   <div class="container-fluid col-xl-12">
     <?php
-  $mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
-   // $mysqli = new mysqli ('localhost', 'dev', '', 'crud') or die(mysqli_error($mysqli));
+ // $mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
+    $mysqli = new mysqli ('localhost', 'root', '', 'napietel_crud') or die(mysqli_error($mysqli));
     $result = $mysqli->query("SELECT * FROM data") or die($mysqli->error);
     $result_01 = $mysqli->query("SELECT * FROM foetel") or die($mysqli->error);
     $result_02 = $mysqli->query("SELECT * FROM desszert") or die($mysqli->error);
@@ -44,6 +44,7 @@
     <div class="napi_menu">
      <?php
      while ($row = $result_03->fetch_assoc()): ?>
+      <p><?= $row['napi_leves']; ?></p>
       <p id="text"><?php echo $row['napi_menu']; ?></p>
       <p><?php echo "".$row['ar_03']. "Ft" ;?></p>
       <tr>
@@ -119,6 +120,10 @@
              <div class="row justify-content col-xl-3">
               <form class="" action="index.php" method="POST">
                 <div class="form-group">
+                  <label>Napi leves</label>
+                  <input type="text" name="napi_leves" class="form-control" placeholder="Napi leves" required>
+                </div>
+                <div class="form-group">
                   <label>Napi menü</label>
                   <input type="text" name="napi_menu" class="form-control" placeholder="Napi menü" required>
                 </div>
@@ -146,8 +151,7 @@
                   <input type="text" name="ar" class="form-control" placeholder="Ár" required>
                 </div>
                 <div>
-                    Kiemelt étel <input type="checkbox" name="kiemelt" value="1">
-                  <!--                  Kiemelt étel <input type="checkbox" id="myCheck"  onclick="etel_kiemeles()"> -->
+                  Kiemelt étel <input type="checkbox" name="kiemelt" value="1">
                 </div>
                 <div class="form-group">
                   <button type="submit" name="save" class="btn btn-primary">Mentés</button>

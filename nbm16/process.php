@@ -1,7 +1,7 @@
 <?php
 session_start();
-$mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
-//$mysqli = new mysqli ('localhost', 'dev', '', 'crud') or die(mysqli_error($mysqli));
+//$mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
+$mysqli = new mysqli ('localhost', 'root', '', 'napietel_crud') or die(mysqli_error($mysqli));
 
 if (isset($_POST['save'])) {
   $ar = $_POST['ar'];
@@ -52,8 +52,9 @@ if (isset($_POST['save_02'])) {
 
 if (isset($_POST['save_03'])) {
   $ar_03 = $_POST['ar_03'];
+  $napi_leves = $_POST['napi_leves'];
   $napi_menu = $_POST['napi_menu'];
-  $mysqli->query("INSERT INTO napi_menu (ar_03,napi_menu) VALUES ('$ar_03','$napi_menu')") or
+  $mysqli->query("INSERT INTO napi_menu (ar_03,napi_menu,napi_leves) VALUES ('$ar_03','$napi_menu','$napi_leves')") or
   die($mysqli->error);
 
   $_SESSION['message'] = "Sikeres mentés!";
