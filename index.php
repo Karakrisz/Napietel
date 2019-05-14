@@ -62,66 +62,74 @@
       ?>
     </div>
   <?php endif ?>
-  <div class="container-fluid col-xl-10">
-    <?php
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-9">
+
+        <?php
   //  $mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
-    $mysqli = new mysqli ('localhost', 'root', '', 'napietel_crud') or die(mysqli_error($mysqli));
-    $result = $mysqli->query("SELECT * FROM data") or die($mysqli->error);
-    $result_01 = $mysqli->query("SELECT * FROM foetel") or die($mysqli->error);
-    $result_02 = $mysqli->query("SELECT * FROM desszert") or die($mysqli->error);
-    $result_03 = $mysqli->query("SELECT * FROM napi_menu") or die($mysqli->error);
+        $mysqli = new mysqli ('localhost', 'dev', '', 'crud') or die(mysqli_error($mysqli));
+        $result = $mysqli->query("SELECT * FROM data") or die($mysqli->error);
+        $result_01 = $mysqli->query("SELECT * FROM foetel") or die($mysqli->error);
+        $result_02 = $mysqli->query("SELECT * FROM desszert") or die($mysqli->error);
+        $result_03 = $mysqli->query("SELECT * FROM napi_menu") or die($mysqli->error);
   //pre_r($result);
   //wow slideInRight
-    ?>
-    <div class="napi_menu wow tada"  data-wow-iteration="infinite" data-wow-duration="6s">
-      <h5>Napi menü</h5>
-      <?php
-      while ($row = $result_03->fetch_assoc()): ?>
-        <p><?= $row['napi_leves']; ?></p>
-        <p id="text"><?php echo $row['napi_menu']; ?></p>
-        <p><?= $row['ar_03'] . "Ft" ?></p>
-      <?php endwhile; ?>
-    </div>
-    <div class="row justify-content wow slideInRight" data-wow-duration="3s" data-wow-delay="0.5s">
-      <table class="table col-xl-12">
-        <h4>Leves</h4>
+        ?>
+        <div class="row justify-content wow slideInRight" data-wow-duration="3s" data-wow-delay="0.5s">
+          <table class="table col-xl-12">
+            <h4>Leves</h4>
+            <?php
+            while ($row = $result->fetch_assoc()): ?>
+              <tr>
+                <th class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><?php echo $row['leves'] ?></th>
+                <td class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><i><?php echo "".$row['ar']. "Ft" ;?></i></td>
+              </tr>
+            <?php endwhile; ?>
+          </table>
+          <table class="table col-xl-12">
+            <h4>Főétel</h4>
+            <?php
+            while ($row = $result_01->fetch_assoc()): ?>
+              <tr>
+                <th class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><?php echo $row['foetel'] ?></th>
+                <td class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><i><?php echo $row['ar_01'] . "Ft" ;?></i></td>
+              </tr>
+            <?php endwhile; ?>
+          </table>
+          <table class="table col-xl-12">
+            <h4>Desszert</h4>
+            <?php
+            while ($row = $result_02->fetch_assoc()): ?>
+              <tr>
+                <th class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><?php echo $row['desszert'] ?></th>
+                <td class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><i><?php echo "".$row['ar_02'] . "Ft" ;?></i></td>
+              </tr>
+            <?php endwhile; ?>
+          </table>
+        </div>
         <?php
-        while ($row = $result->fetch_assoc()): ?>
-          <tr>
-            <th class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><?php echo $row['leves'] ?></th>
-            <td class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><i><?php echo "".$row['ar']. "Ft" ;?></i></td>
-          </tr>
-        <?php endwhile; ?>
-      </table>
-      <table class="table col-xl-12">
-        <h4>Főétel</h4>
-        <?php
-        while ($row = $result_01->fetch_assoc()): ?>
-          <tr>
-            <th class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><?php echo $row['foetel'] ?></th>
-            <td class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><i><?php echo $row['ar_01'] . "Ft" ;?></i></td>
-          </tr>
-        <?php endwhile; ?>
-      </table>
-      <table class="table col-xl-12">
-        <h4>Desszert</h4>
-        <?php
-        while ($row = $result_02->fetch_assoc()): ?>
-          <tr>
-            <th class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><?php echo $row['desszert'] ?></th>
-            <td class="<?= $row['kiemelt'] ? 'kiemelt' : '' ?>"><i><?php echo "".$row['ar_02'] . "Ft" ;?></i></td>
-          </tr>
-        <?php endwhile; ?>
-      </table>
-    </div>
-    <?php
-    function pre_r( $array ) {
-      echo '<pre>';
-      print_r($array);
-      echo '</pre>';
-    }
+        function pre_r( $array ) {
+          echo '<pre>';
+          print_r($array);
+          echo '</pre>';
+        }
 
-    ?>
+        ?>
+      </div>
+      <div class="napi_menu col-xl-2"  data-wow-iteration="infinite" data-wow-duration="6s">
+        <div class="napi_menu_style">
+          <h5>Napi menü</h5>
+          <?php
+          while ($row = $result_03->fetch_assoc()): ?>
+            <p><?= $row['napi_leves']; ?></p>
+            <p id="text"><?php echo $row['napi_menu']; ?></p>
+            <p><?= $row['ar_03'] . "Ft" ?></p>
+          <?php endwhile; ?>
+          
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>

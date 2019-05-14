@@ -1,13 +1,14 @@
 .napi_menu {
   position: relative;
   top: 2em;
-  float: right;
-  left: 180px;
   font-size: 40px;
-  font-weight: 700;
+  font-weight: 700px;
   color: white;
+  left: 100px;
+}
+.napi_menu_style {
   background-color:rgba(255,0,0,0.5);
-  border-radius: 45%;
+  border-radius: 40%;
 }
 .napi_menu p {
   text-align: center;
@@ -59,4 +60,13 @@ h5 {
   bottom: 45px;
   font-size: 40px;
   font-weight: 700;
+}
+@media only screen and (max-width: 600px) {
+  .napi_menu {
+    top: 3em;
+    left: 0px;
+  }
+  .napi_menu_style {
+    border-radius: 0%;
+  }
 }

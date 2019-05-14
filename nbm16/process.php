@@ -1,7 +1,7 @@
 <?php
 session_start();
 //$mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
-$mysqli = new mysqli ('localhost', 'root', '', 'napietel_crud') or die(mysqli_error($mysqli));
+$mysqli = new mysqli ('localhost', 'dev', '', 'crud') or die(mysqli_error($mysqli));
 
 if (isset($_POST['save'])) {
   $ar = $_POST['ar'];
