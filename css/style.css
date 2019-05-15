@@ -61,12 +61,33 @@ h5 {
   font-size: 40px;
   font-weight: 700;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
   .napi_menu {
     top: 3em;
     left: 0px;
   }
+  .napi_menu h5, p {
+    font-size: 25px;
+  }
   .napi_menu_style {
     border-radius: 0%;
   }
+  th {
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  td {
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  h4 {
+    color: red;
+    font-size: 25px;
+    float: left;
+    position: relative;
+  }
 }
+

@@ -68,7 +68,7 @@
 
         <?php
   //  $mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
-        $mysqli = new mysqli ('localhost', 'dev', '', 'crud') or die(mysqli_error($mysqli));
+        $mysqli = new mysqli ('localhost', 'root', 'root', 'napietel_crud') or die(mysqli_error($mysqli));
         $result = $mysqli->query("SELECT * FROM data") or die($mysqli->error);
         $result_01 = $mysqli->query("SELECT * FROM foetel") or die($mysqli->error);
         $result_02 = $mysqli->query("SELECT * FROM desszert") or die($mysqli->error);
@@ -114,7 +114,7 @@
           print_r($array);
           echo '</pre>';
         }
-
+        
         ?>
       </div>
       <div class="napi_menu col-xl-2"  data-wow-iteration="infinite" data-wow-duration="6s">
