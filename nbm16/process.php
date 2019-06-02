@@ -1,7 +1,10 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
+require_once("db-connect.php");
 //$mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
-$mysqli = new mysqli ('localhost', 'root', 'root', 'napietel_crud') or die(mysqli_error($mysqli));
+$mysqli = new mysqli ('localhost', 'root', '', 'napietel_crud') or die(mysqli_error($mysqli));
 
 if (isset($_POST['save'])) {
   $ar = $_POST['ar'];
@@ -108,3 +111,54 @@ if (isset($_GET['delete_03'])) {
 }
 
 
+$pEvent = filter_input(INPUT_POST, "event", FILTER_SANITIZE_SPECIAL_CHARS);
+$gEvent = filter_input(INPUT_GET, "event", FILTER_SANITIZE_SPECIAL_CHARS);
+$email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_SPECIAL_CHARS);
+$jelszo = filter_input(INPUT_POST, "jelszo", FILTER_SANITIZE_SPECIAL_CHARS);
+$nev = filter_input(INPUT_POST, "nev", FILTER_SANITIZE_SPECIAL_CHARS);
+$jelszo2 = filter_input(INPUT_POST, "jelszo2", FILTER_SANITIZE_SPECIAL_CHARS);
+$uid = filter_input(INPUT_GET, "uid", FILTER_SANITIZE_SPECIAL_CHARS);
+
+
+if ($pEvent == "bejelentkezés") {
+  $sql = "select uid, nev from userek where email = '$email' and jelszo = md5('$jelszo')";
+  $tabla = @mysqli_query($dbc, $sql);
+  list($uid, $nev) = @mysqli_fetch_row($tabla);
+    if (@mysqli_num_rows($tabla) == 1) { // Beléphet
+      $_SESSION["uid"] = $uid;
+      $_SESSION["nev"] = $nev;
+      $_SESSION["email"] = $email;
+      $datumido = date("Y.m.d H:i:s");
+      $sql = "update userek set datum_utolso = '$datumido' where uid = $uid";
+      mysqli_query($dbc, $sql);
+        //$uzenet = "Sikeres belépés!";
+      header("Location: index.php");
+      exit;
+    } else { // Nem léphet be
+      $uzenet = "Sikertelen belépés!";
+    }
+  } else
+
+  if ($gEvent == "kilépés") {
+    unset($_SESSION["uid"]);
+    unset($_SESSION["nev"]);
+    unset($_SESSION["email"]);
+    $uzenet = "Sikeres kilépés!";
+  } else
+
+  if ($pEvent == "regisztráció") {
+    if ($jelszo != $jelszo2) {
+      $uzenet = "A két jelszónak meg kell egyeznie!";
+    } else {
+      $sql = "select count(*) as db from userek where email = '$email'";
+      $tabla = mysqli_query($dbc, $sql);
+      list($db) = mysqli_fetch_row($tabla);
+      if ($db > 0) {
+        $uzenet = "Ez az e-mail cím már regisztrálva van!<br>Adjon meg másik e-mail címet!";
+      } else {
+        $sql = "insert into userek (nev, email, jelszo) values ('$nev', '$email', md5('$jelszo'))";
+        mysqli_query($dbc, $sql);
+        $uzenet = "Felhasználó létrehozása sikeres!";
+      }
+    }
+  }

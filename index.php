@@ -68,7 +68,8 @@
 
         <?php
   //  $mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
-        $mysqli = new mysqli ('localhost', 'root', 'root', 'napietel_crud') or die(mysqli_error($mysqli));
+     //   $mysqli = new mysqli ('localhost', 'root', '', 'napietel_crud') or die(mysqli_error($mysqli));
+        require_once("nbm16/db-connect.php");
         $result = $mysqli->query("SELECT * FROM data") or die($mysqli->error);
         $result_01 = $mysqli->query("SELECT * FROM foetel") or die($mysqli->error);
         $result_02 = $mysqli->query("SELECT * FROM desszert") or die($mysqli->error);

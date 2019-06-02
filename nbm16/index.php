@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['uid'])) {
+  header('Location: page-login.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -32,7 +38,8 @@
   <div class="container-fluid col-xl-12">
     <?php
  // $mysqli = new mysqli ('localhost', 'napietel_krisz', 'mualim13', 'napietel_crud') or die(mysqli_error($mysqli));
-    $mysqli = new mysqli ('localhost', 'root', 'root', 'napietel_crud') or die(mysqli_error($mysqli));
+   // $mysqli = new mysqli ('localhost', 'root', '', 'napietel_crud') or die(mysqli_error($mysqli));
+    require_once("db-connect.php");
     $result = $mysqli->query("SELECT * FROM data") or die($mysqli->error);
     $result_01 = $mysqli->query("SELECT * FROM foetel") or die($mysqli->error);
     $result_02 = $mysqli->query("SELECT * FROM desszert") or die($mysqli->error);
@@ -41,6 +48,14 @@
  // pre_r($result_01);
   //wow slideInRight
     ?>
+    <div class="" style="color: blue; font-size: 20px;">
+      <?php
+      if (isset($_SESSION['uid'])) {
+        echo "Üdvözöllek " . $_SESSION['nev'];
+      }
+      ?>
+    </div><br>
+      <a class="nav-link float-right" href="page-login.php?event=kilépés" style="position: relative; bottom: 58px;"><i class="fa fa-power-off"></i> Kijelentkezés</a>
     <div class="napi_menu">
      <?php
      while ($row = $result_03->fetch_assoc()): ?>
@@ -56,7 +71,7 @@
       <?php endwhile; ?>
 
     </div>
-    <div class="row justify-content col-xl-8" data-wow-duration="2s" data-wow-delay="0.5s">
+    <div class="row justify-content col-xl-6" data-wow-duration="2s" data-wow-delay="0.5s">
       <table class="table col-xl-12">
         <h4>Levesek</h4>
         <?php
